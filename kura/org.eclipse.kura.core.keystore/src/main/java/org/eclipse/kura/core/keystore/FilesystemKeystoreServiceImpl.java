@@ -124,6 +124,14 @@ public class FilesystemKeystoreServiceImpl implements KeystoreService, Configura
 
     private String ownPid;
 
+    static {
+        try {
+            sun.security.x509.AlgorithmId.get("PBEWithSHA1AndDESede");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+
     // ----------------------------------------------------------------
     //
     // Dependencies
