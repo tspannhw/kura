@@ -12,7 +12,7 @@ ARG PACKED=false
 
 ENV \
   GIT_REPO=${GIT_REPO:-https://github.com/eclipse/kura.git} \
-  GIT_BRANCH=${GIT_BRANCH:-develop} \
+  GIT_BRANCH=${GIT_BRANCH:-release-5.0.0} \
   JAVA_HOME=/usr/lib/jvm/jre-1.8.0 \
   MAVEN_PROPS=-DskipTests \
   KURA_DIR=/opt/eclipse/kura \
@@ -41,7 +41,7 @@ RUN \
       cd /kura && \
       `# Replace broken 'nn' script` \
       cp kura/distrib/src/main/sh/extract.sh kura/distrib/src/main/sh/extract_nn.sh && \
-      scl enable rh-maven35 "mvn -B -f target-platform/pom.xml clean install $MAVEN_PROPS" && \
+      scl enable rh-maven35 "mvn -B -f target-platform/pom.xml clean install -Pno-mirror $MAVEN_PROPS" && \
       scl enable rh-maven35 "mvn -B -f kura/pom.xml clean install $MAVEN_PROPS -Pspeedup" && \
       scl enable rh-maven35 "mvn -B -f kura/distrib/pom.xml clean install $MAVEN_PROPS -Pintel-up2-centos-7-nn -nsu" \
     ) && \

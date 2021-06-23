@@ -85,7 +85,15 @@ public class KeystoreServiceOptions {
     }
 
     public char[] getKeystorePassword(final CryptoService cryptoService) {
-        return cryptoService.getKeyStorePassword(getKeystorePath());
+        char[] result = cryptoService.getKeyStorePassword(getKeystorePath());
+        if (result != null && result.length != 0) {
+            return result;
+        }
+        try {
+            return cryptoService.decryptAes(this.keystorePassword.getPassword());
+        } catch (final Exception e) {
+            return this.keystorePassword.getPassword();
+        }
     }
 
     public boolean needsRandomPassword() {
