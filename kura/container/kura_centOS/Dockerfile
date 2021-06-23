@@ -12,7 +12,7 @@ ARG PACKED=false
 
 ENV \
   GIT_REPO=${GIT_REPO:-https://github.com/eclipse/kura.git} \
-  GIT_BRANCH=${GIT_BRANCH:-fix_centos_docker} \
+  GIT_BRANCH=${GIT_BRANCH:-develop} \
   JAVA_HOME=/usr/lib/jvm/jre-1.8.0 \
   MAVEN_PROPS=-DskipTests \
   KURA_DIR=/opt/eclipse/kura \
@@ -25,7 +25,7 @@ RUN \
     chmod a+x -R /usr/local/bin && \
     yum -y update && \
     yum -y install scl-utils scl-utils-build centos-release-scl && \
-    yum -y install git java-1.8.0-openjdk-headless-1.8.0.282.b08-1.el7_9.x86_64 rh-maven35 && \
+    yum -y install git java-1.8.0-openjdk-devel rh-maven35 && \
     \
     if [ -d /context/.git ]; then \
       mv /context /kura; \
@@ -41,13 +41,13 @@ RUN \
       cd /kura && \
       `# Replace broken 'nn' script` \
       cp kura/distrib/src/main/sh/extract.sh kura/distrib/src/main/sh/extract_nn.sh && \
-      scl enable rh-maven35 "mvn -B -f target-platform/pom.xml clean install -Pno-mirror $MAVEN_PROPS" && \
+      scl enable rh-maven35 "mvn -B -f target-platform/pom.xml clean install $MAVEN_PROPS" && \
       scl enable rh-maven35 "mvn -B -f kura/pom.xml clean install $MAVEN_PROPS -Pspeedup" && \
       scl enable rh-maven35 "mvn -B -f kura/distrib/pom.xml clean install $MAVEN_PROPS -Pintel-up2-centos-7-nn -nsu" \
     ) && \
     ls -la /kura/kura/distrib/target && \
     yum -y history undo last && \
-    yum -y install java-1.8.0-openjdk-headless && \
+    yum -y install java-1.8.0-openjdk-headless-1.8.0.282.b08-1.el7_9.x86_64 && \
     yum -y install procps zip unzip gzip tar psmisc socat telnet dos2unix openssl net-tools hostname which && \
     yum -y clean all && rm -rf /var/cache/yum && \
     /kura/kura/distrib/target/kura_*_intel-up2-centos-7-nn_installer.sh && \
