@@ -41,7 +41,7 @@ RUN \
       cd /kura && \
       `# Replace broken 'nn' script` \
       cp kura/distrib/src/main/sh/extract.sh kura/distrib/src/main/sh/extract_nn.sh && \
-      scl enable rh-maven35 "mvn -B -f target-platform/pom.xml clean install $MAVEN_PROPS" && \
+      scl enable rh-maven35 "mvn -B -f target-platform/pom.xml clean install -Pno-mirror $MAVEN_PROPS" && \
       scl enable rh-maven35 "mvn -B -f kura/pom.xml clean install $MAVEN_PROPS -Pspeedup" && \
       scl enable rh-maven35 "mvn -B -f kura/distrib/pom.xml clean install $MAVEN_PROPS -Pintel-up2-centos-7-nn -nsu" \
     ) && \
