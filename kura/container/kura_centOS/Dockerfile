@@ -25,7 +25,7 @@ RUN \
     chmod a+x -R /usr/local/bin && \
     yum -y update && \
     yum -y install scl-utils scl-utils-build centos-release-scl && \
-    yum -y install git java-1.8.0-openjdk-devel rh-maven35 && \
+    yum -y install git java-1.8.0-openjdk-devel-1.8.0.282.b08-1.el7_9 rh-maven35 && \
     \
     if [ -d /context/.git ]; then \
       mv /context /kura; \
